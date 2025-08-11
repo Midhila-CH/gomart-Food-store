@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Pending Orders</h2>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Placed At</th>
+                <th>Actions</th>
+            </tr> 
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr class="table-primary">
+                    <td>{{ order.id }} </td>
+                    <td>{{ order.user.username|default:"GUEST" }} </td>
+                    <td>{{order.total_price}}</td>
+                    <td>{{ order.order_status }}</td>
+                    <td>{{ order.created_at }}</td>
+                    <td>
+                           <button class="btn btn-success btn-sm show-assign-form" data-orderitem-id="{{ order.id }}">Out for Delivery</button>
+                                    <a href="{% url 'cancel_order' order.id %}" class="btn btn-danger btn-sm">Cancel</a>
+                                 <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewProductsModal{{ order.id }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+  <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>View Products</svg></button>
+
+
+                                    <div class="modal fade" id="viewProductsModal{{ order.id }}" tabindex="-1" aria-labelledby="viewProductsModalLabel{{ order.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="viewProductsModalLabel{{ order.id }}">Products in Order #{{ order.id }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th>Qty</th>
+                                                        <th>Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for item in order_items %}
+                                                        {% if item.order.id == order.id %}
+                                                            <tr>
+                                                                <td>{{ item.product.name }}</td>
+                                                                <td>{{ item.quantity }}</td>
+                                                                <td>{{ item.product.ourprice }}</td>
+                                                            </tr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="assign-form mt-2" id="assign-form-{{ order.id }}" style="display: none;">
+                                        <select class="form-control staff-select" data-item-id="{{ order.id }}">
+                                            <option value="">Select Delivery Staff</option>
+                                            {% for staff in delivery_staffs %}
+                                                <option value="{{ staff.id }}">{{ staff.name }}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                        <button class="btn btn-primary btn-sm mt-1 assign-submit" data-item-id="{{ order.id }}">Assign</button>
+                                    </div>
+                                </td>
+                    
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No pending orders found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.show-assign-form').on('click', function(){
+            console.log("Out for Delivery button clicked");
+            const itemId = $(this).data('orderitem-id');  // correct variable name
+            $('#assign-form-' + itemId).slideToggle();     // use same case
+        });
+
+        $('.assign-submit').on('click', function(){
+            const itemId = $(this).data('item-id');
+            const staffId = $('.staff-select[data-item-id="' + itemId + '"]').val();  // corrected from value() to val()
+
+            $.ajax({
+                url: '{% url "assign_delivery_staff" %}',
+                method: 'POST',
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                data: {
+                    order_item_id: itemId,
+                    staff_id: staffId
+                },
+                success: function(){
+                    alert('✅ Delivery staff assigned!');
+                    $('#assign-form-' + itemId).hide();
+                    location.reload();
+                },
+                error: function(){
+                    alert('❌ Failed to assign staff.');
+                }
+            });
+        });
+    });
+
+</script>
+
+{% endblock %}
+

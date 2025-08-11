@@ -1,0 +1,45 @@
+{%include 'banner.html'%}
+<div class="container-head">
+    <h1 style="text-align:center;">Wishlist page</h1>
+    <ul class="listing" >
+        <li>Home >> </li>
+        <li> Product >> </li>
+        <li> Pages </li>
+    </ul>
+</div>
+{% if wishlist_items %}
+    <table border="1" class="table table-hover">
+        <thead class="table-dark">
+            <th>Image</th>
+            <th>Product Name</th>
+            <th>Stock Status</th>
+            <th>Unit price</th>
+        </thead>
+        <tbody>
+            {%for item in wishlist_items%}
+            <tr>
+                <td><img src="{{item.product.image.url}}" style="width:50px; height:50px;"></td>
+                <td><h6 style="color:orange;">{{item.product.category.name}}</h6>
+                    {{item.product.name}}</td>
+                <td>{{item.product.status}}</td>
+                <td>{{item.product.ourprice}}</td>
+                <!--Move to cart-->
+                <td>
+                    <form method="POST" action="{%url 'move_to_cart' item.product.id%}">
+                        {%csrf_token%}
+                        <button type="submit" class="btn btn-success">Move to cart</button>
+                    </form>
+                    <!--Remove from wishlist-->
+                    <form method="POST" action="{%url 'remove_from_wishlist' item.product.id%}">
+                        {%csrf_token%}
+                        <button type="submit" class="btn btn-danger">Remove from wishlist</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {%else%}
+        <h3 style="text-align: center; margin-top: 40px;">Your wishlist is empty</h3>
+{%endif%}
+

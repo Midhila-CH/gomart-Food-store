@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Bootstrap Example</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<style>
+  *{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    background: #fcfbfb;
+  }
+  .container
+  {
+    margin-top:50px;
+    display:grid;
+    max-height: 200px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap:20px;  
+    background: white;
+  }
+
+  main{
+   display:grid;
+   grid-template-columns:1.8fr 1.2fr;
+   grid-template-areas: "container-fluid content";
+   grid-gap:10px;
+  }
+  .container-fluid{
+    background: #fcfbfb;
+    grid-area: container-fluid;
+  }
+  .contact{
+    grid-area:contact;
+  }
+
+  .content{
+    border:1px solid black;
+    padding:15px 50px;
+    background: white;
+  }
+  .content h2{
+    background: white;
+  }
+  .box
+  {
+    text-align: center;
+  }
+  .detail-header
+  {
+    display:grid;
+    grid-auto-flow:column;
+    justify-content:space-between;
+    align-items:center; 
+  }
+  .detail-header button
+  {
+    height:30px;
+    width:120px;
+    border:1px solid;
+    padding:1px;
+    color:#f2f2f2;
+    border-radius:5px;
+    cursor:pointer;
+    transition:all 0.2s ease-in;
+  }
+  .detail-header button:hover{
+    background-color:transparent;
+    color:#2d2b98;
+  }
+  .detail table{
+    width:100%;
+    border-collapse: collapse;
+  }
+  .detail table tr:nth-child(odd){
+    background-color: #f8f8fb;
+  }
+  .detail table th{
+    background-color: #f4f4fb;
+  }
+  .detail table th .detail table td{
+    padding:0.8rem 0.2rem;
+    text-align:left;
+    min-width:120px;
+    font-size:14px;
+  }
+  .detail table tr:hover{
+    background-color:#f2f2f2;
+    border-bottom:2px solid #2d2d2d;
+  }
+  .customer-wrapper
+  {
+    display:flex;
+    grid-template-columns:0.1fr 1fr;
+    grid-auto-flow: column;
+    margin:10px 0;
+    align-items:flex-start;
+    gap:2px;
+  }
+  .customer-image
+  {
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    object-fit:cover;
+  }
+  .view{
+    text-align: center;
+    width:100%;
+    background-color: #f8f8f5;
+    position:sticky;
+  }
+  .card customer
+  {
+    width:50%;
+    height:100%;
+    overflow: scroll; 
+  }
+  .buttonview .btncls
+  {
+    border-radius: 5px;
+    background: rgb(20, 154, 20);
+    margin-left: 85%;
+    color:white;
+    padding:3px;  
+  }
+</style>
+<body>
+  <!--navigation -->>
+    <nav class="navbar bg-body-teritiary fixed-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation"></button>
+            <div class="nav-item dropdown">
+              <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                <span>Admin<i class="fa-solid fa-user"></i></span></a>
+              <div class="dropdown-menu m-0 bg-tertiary rounded-0">
+                  <a href="#" class="dropdown-item">Change Password</a>
+                  <a href="{% url 'index'%}"class="dropdown-item">View site</a>
+                  <a href="{% url 'logout'%}" class="dropdown-item">Log out</a>
+              </div>
+            </div>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Product Management
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/country/">Country</a></li>
+                    <li><a class="dropdown-item" href="/brands/">Brands</a></li>
+                    <li><a class="dropdown-item" href="/category/">Category</a></li>
+                    <li><a class="dropdown-item" href="/products/">Products</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Order Management
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Pending Orders</a></li>
+                    <li><a class="dropdown-item" href="#">Cancelled Orders</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Shipping Management
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Out For Delivery</a></li>
+                    <li><a class="dropdown-item" href="#">Completed Orders</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Delivery Partners
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Details</a></li>
+                    <li><a class="dropdown-item" href="#">Log in/Out Info</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Daily % weekly Deals
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Deals</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Posters
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Poster1</a></li>
+                    <li><a class="dropdown-item" href="#">Poster2</a></li>
+                    <li><a class="dropdown-item" href="#">Poster3</a></li>
+                    <li><a class="dropdown-item" href="#">Poster4</a></li>
+                    <li><a class="dropdown-item" href="#">Poster5</a></li>
+                    <li><a class="dropdown-item" href="#">Poster6</a></li>
+                    <li><a class="dropdown-item" href="#">Poster7</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Feedback
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Product Feedback</a></li>
+                    <li><a class="dropdown-item" href="#">Site Feedback</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Enquiries</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Subscription</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Registered Customers</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Backup Data and media</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <!--navigation end here-->
+      <!--body-->
+  <div class="container">  
+    <div class="content">
+      <h2 style="text-align: end;">{{Delivered_order}}</h2>
+      <a href="#" role="button" class="btn btn-success">Completed Orders</a>
+    </div>    
+    <div class="content">
+      <h2 style="text-align:center;">{{Out_order}}</h2>
+      <button type="button" class="btn btn-secondary text-end">orders-today</button>
+    </div>
+    <div class="content">
+      <h2 style="text-align: center;">{{Delivered_order}}</h2>
+      <button type="button" class="btn btn-dark">Delivery Now</button>
+    </div>
+    <div class="content">
+      <h2 style="text-align: center;">{{Pending_order}}</h2>
+      <button type="button" class="btn btn-warning">Pending orders</button>
+    </div>
+  </div>
+    <a href=""><span></span></a>
+  </div>
+  <main>
+    <div class="card detail">
+      <div class="detail-header">
+        <h2>Recent orders</h2>
+      </div>
+      <table class="detail table">
+        <thead>
+          <tr>
+            <th>Order Id </th>
+            <th>Price</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if recent_orders %}
+            {% for order in recent_orders %}
+              <tr>
+                <td>{{order.id}}</th>                                   
+                <td>{{order.total_price}}</td>
+                <td>
+                  {% if order.order_status == 'Pending' %}
+                    <span class="badge bg-warning text-dark">Pending</span>
+                  {% elif order.order_tatus == 'Delivered' %}
+                    <span class="badge bg-success">Delivered</span>
+                  {% elif order.order_status == 'Out For Delivery' %}
+                    <span class="badge bg-secondary">Out For Delivery</span>
+                  {% else %}
+                    <span class="badge bg-secondary">{{order.order_status}}</span>
+                  {% endif %}
+                </td>
+              </tr>  
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="4" class="text-center">You have no recent orders.</td>
+            </tr>
+          {% endif %}
+          <div class="buttonview">
+              <a href="{% url 'my_orders'%}"><button class="btncls">View All</button></a>
+            </div>
+        </tbody> 
+      </table>  
+    </div>
+    <div class="card customer">
+      <h4><center>Popular Customers</center></h4>
+      {% for customer in customer_details %}
+        <div class="customer-wrapper">
+            <div class="customer-image">
+              <i class="fa-solid fa-user"></i></div>
+                <p><em>{{customer.first_name}} {{customer.last_name}}<em><br/>
+                {{customer.address}}<br/>
+                {{customer.mobile}}</p>
+            </div>
+            {% endfor %}
+            <div class="buttonview">
+              <a href="{%url 'my_customers'%}"><button class="btncls">View All</button></a>
+            </div>
+        </div>
+  </main> 
+</body>
+</html>

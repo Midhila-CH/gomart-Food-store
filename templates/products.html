@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<style>
+    *
+    {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+
+    }
+    nav{
+        background: #fcfbfb;
+    }
+    .title-head{
+        display:flex;
+        margin-top:50px;
+        margin-left: 30px;
+        margin-right: 30px;
+        justify-content: space-between;
+        justify-items: end;
+    }
+    .button
+    {
+        background:#029102;
+        color:white;
+        padding:7px;
+        border:1px solid  #029102;
+        border-radius:25px;
+    }
+    .table-menu img{
+        display: inline-block;
+        width:60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+        border:4px solid #fff;
+        box-shadow:0 2px 6px #0003;
+    }
+    
+
+</style>
+<body>
+    <div class="container">
+        <nav class="navbar bg-body-success fixed-top">
+            <div class="container-fluid">
+                <button class="navbar-toggler-icon" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation"></button>
+                <div class="nav-item dropdown">
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <span>Admin<i class="fa-solid fa-user"></i></span></a>
+                    <div class="dropdown-menu m-0 bg-tertiary rounded-0">
+                      <a href="#" class="dropdown-item">Change Password</a>
+                      <a href="#" class="dropdown-item">View site</a>
+                      <a href="#" class="dropdown-item">Log out</a>
+                    </div>
+                </div>
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                  <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Product Management
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/country/">Country</a></li>
+                        <li><a class="dropdown-item" href="/brands/">Brands</a></li>
+                        <li><a class="dropdown-item" href="/category/">Category</a></li>
+                        <li><a class="dropdown-item" href="/products/">Products</a></li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Order Management
+                        </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Pending Orders</a></li>
+                        <li><a class="dropdown-item" href="#">Cancelled Orders</a></li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Shipping Management
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Out For Delivery</a></li>
+                            <li><a class="dropdown-item" href="#">Completed Orders</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Delivery Partners
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Details</a></li>
+                        <li><a class="dropdown-item" href="#">Log in/Out Info</a></li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Daily % weekly Deals
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Deals</a></li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Posters
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Poster1</a></li>
+                        <li><a class="dropdown-item" href="#">Poster2</a></li>
+                        <li><a class="dropdown-item" href="#">Poster3</a></li>
+                        <li><a class="dropdown-item" href="#">Poster4</a></li>
+                        <li><a class="dropdown-item" href="#">Poster5</a></li>
+                        <li><a class="dropdown-item" href="#">Poster6</a></li>
+                        <li><a class="dropdown-item" href="#">Poster7</a></li>
+                      </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Feedback
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Product Feedback</a></li>
+                        <li><a class="dropdown-item" href="#">Site Feedback</a></li>
+                      </ul>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Enquiries</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Subscription</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Registered Customers</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Backup Data and media</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+        </nav>
+     </div>
+     <!--body-->
+    <div class="container-fluid-body">
+        <div class="title-head">
+            <h3>Products</h3>
+            <a href="/add_product/"><button class="button"><span class="add-product">+Add product</span></button></a>
+        </div>
+        <div class="table-menu">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Product Image</th>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Total(Include Tax)</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th>Opening Stock</th>
+                        <th>Current Stock</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for i in prdct_list%}
+                    <tr>
+                        <td>{{i.id}}</td>
+                        <td><img src="{{i.image.url}}"/></td>
+                        <td>{{i.code}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.ourprice}}</td>
+                        <td>{{i.originalprice}}</td> 
+                        <td>{{i.brand.name}}</td>
+                        <td>{{i.category.name}}</td>
+                        <td>{{i.createdat}}</td>
+                        <td>{{i.updatedat}}</td>
+                        <td>{{i.openingstock}}</td>
+                        <td>{{i.currentstock}}</td>
+                        <td>{{i.status}}</td>
+                        <ul class="dropdown">
+                          <td><a href="#" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                            </svg></a>
+                            <ul class="dropdown-menu">
+                              <a class="dropdown-item" href="/edit_prdct/{{i.id}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                              </svg>Edit</a>
+                              <a class="dropdown-item" href="/dlt_prdct/{{i.id}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                              </svg>Delete</a>
+                            </ul>
+                          </td>
+                        </ul>
+                    </tr>
+                  {% endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

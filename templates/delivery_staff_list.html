@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{%block content %}
+<div class="container">
+    <h2>Delivery Staff</h2>
+    <a class="btn btn-primary mb-3" href="{%url 'add_delivery_staff'%}">Add delivery staff</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Number</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff in staffs %}
+            <tr>
+                <td>{{staff.name}}</td>
+                <td>{{staff.number}}</td>
+                <td>{{staff.is_active|yesno:"Active,Inactive"}}</td>
+                <td>
+                    <a href="{%url 'delivery_staff_edit' staff.id%}" class="btn btn-sm btn-warning">Edit</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-center">No staff available</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

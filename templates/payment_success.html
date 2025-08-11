@@ -1,0 +1,16 @@
+{%include 'banner.html'%}
+<div class="container mt-5 text-center">
+    <h2 class="text-success">Payment Successful! 🎉</h2>
+    <p>Thank you for your purchase, <strong>{{ order.user.username }}</strong>!</p>
+    <p>Your payment has been successfully processed.</p>
+
+    <div class="card mt-4 p-4">
+        <h4>Order Details</h4>
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+        <p><strong>Transaction ID:</strong> {{ order.payment_id }}</p>
+        <p><strong>Total Amount Paid:</strong> ₹{{ order.total_price }}</p>
+    </div>
+
+    <a href="{% url 'order_history' %}" class="btn btn-primary mt-3">View Order History</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Return to Home</a>
+</div>

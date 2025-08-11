@@ -1,0 +1,44 @@
+{%include 'banner.html'%}
+<div class="container-invoice">
+    <h2>Invoice <span class="badge bg-success">Placed Order</span></h2>
+    <p><strong>Invoice No:</strong> #{{ order.id }}</p>
+    <p><strong>Order ID:</strong> #{{ order.id }}</p>
+    <p><strong>Date:</strong> {{ order.created_at|date:"M. d, Y" }}</p>
+
+    <h4>Shipping Address</h4>
+    <p>{{ order.shipping_address }}</p>
+
+    <h4>Order Details</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SR.</th>
+                <th>Products</th>
+                <th>QTY</th>
+                <th>Item Price</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>₹{{ item.price }}</td>
+                <td>₹{{ subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Payment Method</h4>
+    <p>Cash on Delivery</p>
+
+    <h4>Summary</h4>
+    <p><strong>Shipping Cost:</strong> ₹{{ shipping }}</p>
+    <h3><strong>Total Amount:</strong> ₹{{ total }}</h3>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+{%include 'banner.html'%}
+<div class="checkout-container">
+    <h2>Shipment Address</h2>
+    <form method="POST" id="pay" action="{% url 'process_checkout' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>First Name</label>
+                <input type="text" class="form-control" name="first_name" required>
+                <input type="hidden" name="payment_id" value="">
+                <input type="hidden" name="first_name" value="{{ order.shipping_address.first_name }}">
+                <input type="hidden" name="last_name" value="{{ order.shipping_address.last_name }}">
+                <input type="hidden" name="email" value="{{ order.shipping_address.email }}">
+                <input type="hidden" name="mobile" value="{{ order.shipping_address.mobile }}">
+                <input type="hidden" name="address" value="{{ order.shipping_address.address }}">
+                <input type="hidden" name="state" value="{{ order.shipping_address.state }}">
+                <input type="hidden" name="pincode" value="{{ order.shipping_address.pincode }}">
+                <input type="hidden" name="payment_method" value="online">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Last Name</label>
+                <input type="text" class="form-control" name="last_name" required>
+            </div>
+            <div class="col-md-12 mb-3">
+                <label>Street Address</label>
+                <input type="text" class="form-control" name="address" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Mobile</label>
+                <input type="tel" class="form-control" name="mobile" pattern="0-9{10}" required/>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Email</label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>State</label>
+                <input type="text" class="form-control" name="state">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Pincode</label>
+                <input type="text" class="form-control" name="Pincode">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-warning w-100">Save this Address</button>
+        <div class="form-check mt-2">
+            <input type="checkbox" class="form-check-input" id="sameBilling">
+            <label class="form-check-label" for="sameBilling">Billing same as Shipping address</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="useAnother">
+            <label class="form-check-label" for="useAnother">Use Another Address for Billing</label>
+        </div>
+    </form>
+
+    <hr>
+
+    <div class="order-summary">
+        <h4>Order Summary</h4>
+        <h2>Payment Page</h2>
+        <p>Order ID: {{ order.id }}</p>
+        <p>Total Amount: €{{ order.total_price }}</p>
+
+        <button class="btn btn-primary" id="pay-btn">Proceed to Pay</button>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "{{ razorpay_key }}",
+        "amount": "{{ razorpay_amount }}",
+        "currency": "INR",
+        "name": "Your Store",
+        "description": "Order Payment",
+        "order_id": "{{ razorpay_order_id }}",
+        "handler": function(response) {
+            // Create hidden input and submit form
+            let form = document.getElementById("pay");
+            let input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "payment_id";
+            input.value = response.razorpay_payment_id;
+            form.appendChild(input);
+            form.submit();
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+
+    var rzp = new Razorpay(options);
+    document.getElementById("pay-btn").onclick = function(e) {
+        e.preventDefault();
+        rzp.open();
+    }
+</script>
+    </div>
+    
+</div>

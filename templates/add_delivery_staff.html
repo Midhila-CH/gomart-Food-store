@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>{{ action }} Delivery Staff</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label>Name</label>
+            <input type="text" name="name" class="form-control" value="{{ staff.name|default:'' }}" required>
+        </div>
+        <div class="mb-3">
+            <label>Phone Number</label>
+            <input type="text" name="number" class="form-control" value="{{ staff.number|default:'' }}">
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" name="is_active" class="form-check-input" id="activeCheck"
+                {% if staff and staff.is_active %}checked{% endif %}>
+            <label class="form-check-label" for="activeCheck">Active</label>
+        </div>
+        <button type="submit" class="btn btn-success">{{ action }}</button>
+        <a href="{% url 'delivery_staff_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

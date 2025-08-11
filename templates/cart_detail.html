@@ -1,0 +1,97 @@
+{%include 'banner.html'%}
+<div class="container-head">
+    <h1 style="text-align:center;">Shopping Cart</h1>
+    <ul class="listing" >
+        <li>Home >> </li>
+        <li>Product >> </li>
+        <li>Pages </li>
+    </ul>
+</div>
+<div class="container" name="">
+    <button class="btn">Delete All</button>
+    <button class="btn">Delete Selected Only</button>
+</div>
+<div class="container my-5">
+    {%if cart_items%}
+    <table border="1" class="table table-hover">
+        <thead class="table-dark">
+            <th><b>Image</b></th>
+            <th><b>Product Name</b></th>
+            <th><b>Quantity</b></th>
+            <th><b>Unit Price</b></th>
+            <th><b>Deal Price</b></th>
+            <th><b>Price</b></th>
+        </thead>   
+        <tbody>
+
+            {%for items in cart_items%}
+            <tr>
+                <td><img src="{{items.product.image.url}}" style="width:24px; height:24px;"></td>
+                <td>{{items.product.name}}</td>
+                <td>
+                    <a href="{% url 'update_cart' items.id 'decrease' %}" class="btn btn-secondary">-</a>
+                    <span>{{ items.quantity }}</span>
+                    <a href="{% url 'update_cart' items.id 'increase' %}" class="btn btn-secondary">+</a>
+                </td>
+                <td>₹{{items.product.ourprice}}</td>
+                <td></td>
+                <td>₹{{ items.subtotal }}</td>
+
+                <td><a href="{%url 'remove_from_cart' items.id%}" class="btn btn-danger remove-cart" data-product="{{ items.product.id }}">Remove</a></td>
+            </tr>
+            {%empty%}
+
+            <tr>
+                <td><td colspan="4">Your cart is empty.</td></td>
+            </tr>
+            {%endfor%}
+        </tbody> 
+        </table>
+        <div class="container text-center">
+            <div class="container-sub">
+                &nbsp; &nbsp; &nbsp;<h3><p>Subtotal:  Total:</p></h3>
+            <h3><p>₹{{ total_price }} <span id="total_cart">₹{{ total_price }}</span></p></h3>
+            
+        {%else%}
+            <p>Your cart is empty</p>
+        {%endif%}
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                </div>
+                <p>Shipping options will be updated during checkout</p>
+                <a class="btn btn-success" href="{%url 'checkout'%}">Confirm Order</a>  &nbsp; &nbsp;<a href="{%url 'product_list'%}" class="btn btn-success">Continue shopping</a>
+        </div>
+</div>
+<script>
+    function getCSRFToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.addEventListener("click", function (event) {
+            if (event.target.classList.contains("update-cart")) {
+                let productId = event.target.getAttribute("data-product");
+                let action = event.target.getAttribute("data-action");
+
+                fetch(`/update_cart/${productId}/${action}/`, {  
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCSRFToken(),
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ action: action })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        document.getElementById(`quantity_${productId}`).innerText = data.new_quantity;
+                        document.getElementById(`total_${productId}`).innerText = "₹" + data.new_total.toFixed(2);
+                        document.getElementById("total_cart").innerText = "₹" + data.total_cart_amount.toFixed(2);
+                    } else if (data.status === "removed") {
+                        location.reload();  // Reload page if item is removed
+                    }
+                })
+                .catch(error => console.error("Error updating cart:", error));
+            }
+        });
+    });
+</script>
