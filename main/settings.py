@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-zw0_gtadb0slbv(**oc9&rgmaxetd!*kf_h5_bwwm)__pl4ct5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','yourdomain.com', 'www.yourdomain.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*','gomart.com', 'www.gomart.com.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
